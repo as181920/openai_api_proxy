@@ -5,8 +5,11 @@ source "https://rubygems.org"
 # Specify your gem's dependencies in openai_api_proxy.gemspec
 gemspec
 
-gem "rake", "~> 13.0"
-
-gem "minitest", "~> 5.0"
-
-gem "rubocop", "~> 1.21"
+gem "debug"
+gem "guard"
+gem "guard-bundler"
+gem "guard-minitest"
+gem "rubocop"
+gem "rubocop-minitest"
+gem "rubocop-performance"
+gem "rubocop-rake"

@@ -3,6 +3,5 @@
 require_relative "openai_api_proxy/version"
 
 module OpenaiApiProxy
-  class Error < StandardError; end
-  # Your code goes here...
+  Error = Class.new StandardError
 end

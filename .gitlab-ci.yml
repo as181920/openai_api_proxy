@@ -1,0 +1,21 @@
+before_script:
+  - pwd
+  - ruby -v
+  - bundle install -j $(nproc)
+
+stages:
+  - test
+  - rubocop
+
+test:
+  stage: test
+  only:
+    - main
+  script:
+    - rake test
+
+rubocop:
+  stage: rubocop
+  when: always
+  script:
+    - rake rubocop
