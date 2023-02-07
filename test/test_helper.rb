@@ -10,3 +10,5 @@ require "webmock/minitest"
 
 require "minitest/reporters"
 Minitest::Reporters.use!
+
+OpenaiApiProxy.configuration.logger = Logger.new(nil)

@@ -7,6 +7,10 @@ AllCops:
   TargetRubyVersion: 3.1
   NewCops: enable
 
+Style/Documentation:
+  # Skips checking to make sure top level modules / classes have a comment.
+  Enabled: false
+
 Style/StringLiterals:
   Enabled: true
   EnforcedStyle: double_quotes
@@ -18,5 +22,32 @@ Style/StringLiteralsInInterpolation:
 Style/FrozenStringLiteralComment:
   Enabled: false
 
+Style/NumericLiterals:
+  Enabled: false
+
 Layout/LineLength:
-  Max: 120
+  Max: 150
+
+Layout/MultilineOperationIndentation:
+  EnforcedStyle: indented
+
+Layout/IndentationConsistency:
+  EnforcedStyle: indented_internal_methods
+
+Layout/MultilineMethodCallIndentation:
+  EnforcedStyle: indented
+
+Metrics/AbcSize:
+  Max: 35
+
+Metrics/CyclomaticComplexity:
+  Max: 10
+
+Metrics/PerceivedComplexity:
+  Max: 10
+
+Metrics/BlockLength:
+  Exclude:
+    - '**/*.rake'
+    - 'test/**/*_test.rb'
+    - 'openai_api_proxy.gemspec'
