@@ -24,6 +24,7 @@ module OpenaiApiProxy
       def connection(extra_headers: {})
         Faraday.new(
           url: API_BASE_URI,
+          proxy: ENV.fetch("http_proxy", nil).presence,
           headers: {
             Authorization: "Bearer #{api_key}",
             "Content-Type": "application/json",
