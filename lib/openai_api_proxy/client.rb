@@ -35,9 +35,13 @@ module OpenaiApiProxy
       def call_api(http_method, fullpath, payload = nil, extra_headers: {})
         OpenaiApiProxy.logger.info "#{self.class.name} #{http_method} #{fullpath} reqt: #{payload&.then { |e| e.size > 4096 ? "[FILTERED]" : e }}"
         resp = connection(extra_headers:).public_send(http_method.underscore, fullpath, payload)
-        OpenaiApiProxy.logger.info "#{self.class.name} #{http_method} #{fullpath} resp(#{resp.status}): #{resp.body.squish}"
+        OpenaiApiProxy.logger.info "#{self.class.name} #{http_method} #{fullpath} resp(#{resp.status}): #{squish_response(resp)}"
 
         parse_response(resp)
+      end
+
+      def squish_response(resp)
+        resp.body.force_encoding("UTF-8").encode("UTF-8", invalid: :replace, undef: :replace, replace: "").squish
       end
 
       def parse_response(resp)
