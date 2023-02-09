@@ -30,7 +30,8 @@ module OpenaiApiProxy
             Authorization: "Bearer #{api_key}",
             "Content-Type": "application/json",
             "OpenAI-Organization": organization_id
-          }.merge(extra_headers).compact
+          }.merge(extra_headers).compact,
+          request: { timeout: 180 }
         )
       end
 
