@@ -3,6 +3,7 @@ module OpenaiApiProxy
     API_BASE_URI = "https://api.openai.com/".freeze
 
     InvalidApiKeyError = Class.new StandardError
+    ApiResponseError = Class.new StandardError
 
     attr_reader :api_key, :organization_id
 
@@ -46,7 +47,9 @@ module OpenaiApiProxy
       end
 
       def parse_response(resp)
-        JSON.parse(resp.body)
+        JSON.parse(resp.body).tap do |resp_info|
+          raise ApiResponseError, resp_info.dig("error", "message") if resp_info["error"].present?
+        end
       end
   end
 end
