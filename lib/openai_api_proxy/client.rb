@@ -48,7 +48,7 @@ module OpenaiApiProxy
 
       def parse_response(resp)
         JSON.parse(resp.body).tap do |resp_info|
-          raise ApiResponseError, resp_info.dig("error", "message") if resp_info["error"].present?
+          raise ApiResponseError, resp_info.dig("error", "message") unless resp.success? # if resp_info["error"].present?
         end
       end
   end
