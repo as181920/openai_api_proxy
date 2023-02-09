@@ -31,7 +31,7 @@ module OpenaiApiProxy
             "Content-Type": "application/json",
             "OpenAI-Organization": organization_id
           }.merge(extra_headers).compact,
-          request: { timeout: 180 }
+          request: { timeout: ENV.fetch("openai_api_timeout", 300).to_i }
         )
       end
 
