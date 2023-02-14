@@ -5,6 +5,7 @@ module OpenaiApiProxy
     InvalidApiKeyError = Class.new StandardError
     InvalidRequestError = Class.new StandardError
     ServerError = Class.new StandardError
+    InternalError = Class.new StandardError
     ApiResponseError = Class.new StandardError
 
     attr_reader :api_key, :organization_id
