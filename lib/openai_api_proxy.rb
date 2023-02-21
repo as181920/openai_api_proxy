@@ -4,6 +4,7 @@ require_relative "openai_api_proxy/version"
 require_relative "openai_api_proxy/client"
 require_relative "openai_api_proxy/model_client"
 require_relative "openai_api_proxy/completion_client"
+require_relative "openai_api_proxy/file_client"
 
 module OpenaiApiProxy
   Error = Class.new StandardError
