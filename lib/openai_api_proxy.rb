@@ -1,4 +1,5 @@
 require "faraday"
+require "faraday/multipart"
 require "active_support/all"
 require_relative "openai_api_proxy/version"
 require_relative "openai_api_proxy/client"

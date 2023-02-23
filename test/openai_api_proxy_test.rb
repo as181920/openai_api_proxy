@@ -4,7 +4,7 @@ require "test_helper"
 
 describe OpenaiApiProxy do
   it "has a version number" do
-    refute_nil ::OpenaiApiProxy::VERSION
+    refute_nil OpenaiApiProxy::VERSION
   end
 
   it "defines Error" do

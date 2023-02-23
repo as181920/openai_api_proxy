@@ -32,11 +32,5 @@ Gem::Specification.new do |spec|
 
   spec.add_dependency "activesupport"
   spec.add_dependency "faraday", "~> 2.7"
-
-  spec.add_development_dependency "bundler"
-  spec.add_development_dependency "minitest", "~> 5.15"
-  spec.add_development_dependency "minitest-reporters"
-  spec.add_development_dependency "mocha"
-  spec.add_development_dependency "rake"
-  spec.add_development_dependency "webmock"
+  spec.add_dependency "faraday-multipart"
 end

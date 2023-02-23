@@ -17,7 +17,7 @@ module OpenaiApiProxy
       @organization_id = organization_id
     end
 
-    %w[GET POST PUT PATCH].each do |http_method|
+    %w[GET POST PUT PATCH DELETE].each do |http_method|
       define_method http_method.underscore do |*args, **kws, &block|
         call_api(http_method, *args, **kws, &block)
       end
@@ -25,17 +25,19 @@ module OpenaiApiProxy
 
     private
 
-      def connection(extra_headers: {})
+      def connection(extra_headers: {}) # rubocop:disable Metrics/MethodLength
         Faraday.new(
           url: API_BASE_URI,
           proxy: ENV.fetch("http_proxy", nil).presence,
           headers: {
             Authorization: "Bearer #{api_key}",
-            "Content-Type": "application/json",
-            "OpenAI-Organization": organization_id
+            "OpenAI-Organization": organization_id,
+            "Content-Type": "application/json"
           }.merge(extra_headers).compact,
           request: { timeout: ENV.fetch("openai_api_timeout", 300).to_i }
-        )
+        ) do |conn|
+          conn.request :multipart if extra_headers["content-type"]&.start_with?("multipart")
+        end
       end
 
       def call_api(http_method, fullpath, payload = nil, extra_headers: {})
@@ -47,10 +49,12 @@ module OpenaiApiProxy
       end
 
       def squish_response(resp)
-        resp.body.force_encoding("UTF-8").encode("UTF-8", invalid: :replace, undef: :replace, replace: "").squish
+        resp.body.force_encoding("UTF-8").encode("UTF-8", invalid: :replace, undef: :replace, replace: "").squish.truncate(1024)
       end
 
       def parse_response(resp)
+        return resp.body if resp.headers["content-type"] == "application/octet-stream"
+
         JSON.parse(resp.body).tap do |resp_info|
           # if resp_info["error"].present?
           unless resp.success?
