@@ -51,3 +51,8 @@ Metrics/BlockLength:
     - '**/*.rake'
     - 'test/**/*_test.rb'
     - 'openai_api_proxy.gemspec'
+
+Metrics/ModuleLength:
+  Exclude:
+    - '**/*.rake'
+    - 'test/**/*_test.rb'
