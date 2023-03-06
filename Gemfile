@@ -7,6 +7,7 @@ gemspec
 
 gem "bundler"
 gem "debug"
+gem "gem-ctags"
 gem "guard"
 gem "guard-bundler"
 gem "guard-minitest"
