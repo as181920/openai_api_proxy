@@ -40,9 +40,9 @@ module OpenaiApiProxy
         end
       end
 
-      def call_api(http_method, fullpath, payload = nil, extra_headers: {})
+      def call_api(http_method, fullpath, payload = nil, extra_headers: {}, &block)
         OpenaiApiProxy.logger.info "#{self.class.name} #{http_method} #{fullpath} reqt: #{payload&.then { |e| e.size > 4096 ? "[FILTERED]" : e }}"
-        resp = connection(extra_headers:).public_send(http_method.underscore, fullpath, payload)
+        resp = connection(extra_headers:).public_send(http_method.underscore, fullpath, payload, &block)
         OpenaiApiProxy.logger.info "#{self.class.name} #{http_method} #{fullpath} resp(#{resp.status}): #{squish_response(resp)}"
 
         parse_response(resp)
@@ -53,7 +53,7 @@ module OpenaiApiProxy
       end
 
       def parse_response(resp)
-        return resp.body if resp.headers["content-type"] == "application/octet-stream"
+        return resp.body if resp.headers["content-type"].in?(%w[application/octet-stream text/event-stream])
 
         JSON.parse(resp.body).tap do |resp_info|
           # if resp_info["error"].present?
