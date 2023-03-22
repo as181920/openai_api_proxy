@@ -49,7 +49,7 @@ module OpenaiApiProxy
       end
 
       def squish_response(resp)
-        resp.body.force_encoding("UTF-8").encode("UTF-8", invalid: :replace, undef: :replace, replace: "").squish.truncate(1024)
+        resp.body.force_encoding("UTF-8").encode("UTF-8", invalid: :replace, undef: :replace, replace: "").squish.truncate(2048)
       end
 
       def parse_response(resp)
