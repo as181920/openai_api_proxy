@@ -2,8 +2,18 @@ require "test_helper"
 
 module OpenaiApiProxy
   describe Client do
-    it "defines constant for api base uri" do
-      refute_nil Client::API_BASE_URI
+    it "should use custom api base url from configuration" do
+      "https://api_proxy_host.com/base_path".then do |custom_base_url|
+        OpenaiApiProxy.configuration.api_base_url = custom_base_url
+
+        assert_equal OpenaiApiProxy.api_base_url, Client.new(api_key: "FILLER").send(:connection).url_prefix.to_s
+      end
+
+      ENV.fetch("openai_api_base_url", Configuration::DEFAULT_API_BASE_URL).then do |default_base_url|
+        OpenaiApiProxy.configuration.api_base_url = default_base_url
+
+        assert_equal OpenaiApiProxy.api_base_url, Client.new(api_key: "FILLER").send(:connection).url_prefix.to_s
+      end
     end
 
     it "ensure api_key presence" do

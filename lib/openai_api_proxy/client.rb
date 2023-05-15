@@ -1,7 +1,5 @@
 module OpenaiApiProxy
   class Client
-    API_BASE_URI = "https://api.openai.com/".freeze
-
     InvalidApiKeyError = Class.new StandardError
     InvalidRequestError = Class.new StandardError
     ServerError = Class.new StandardError
@@ -27,7 +25,7 @@ module OpenaiApiProxy
 
       def connection(extra_headers: {}) # rubocop:disable Metrics/MethodLength
         Faraday.new(
-          url: API_BASE_URI,
+          url: OpenaiApiProxy.api_base_url,
           proxy: ENV.fetch("http_proxy", nil).presence,
           headers: {
             Authorization: "Bearer #{api_key}",

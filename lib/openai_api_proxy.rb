@@ -15,10 +15,13 @@ module OpenaiApiProxy
   ConfigurationError = Class.new Error
 
   class Configuration
-    attr_accessor :logger
+    DEFAULT_API_BASE_URL = "https://api.openai.com/".freeze
+
+    attr_accessor :logger, :api_base_url
 
     def initialize
       @logger = defined?(Rails) ? Rails.logger : Logger.new($stdout)
+      @api_base_url = ENV.fetch "openai_api_base_url", DEFAULT_API_BASE_URL
     end
   end
 
@@ -35,6 +38,10 @@ module OpenaiApiProxy
 
     def logger
       configuration.logger
+    end
+
+    def api_base_url
+      configuration.api_base_url
     end
   end
 end
