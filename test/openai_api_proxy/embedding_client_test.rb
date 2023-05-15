@@ -6,7 +6,7 @@ module OpenaiApiProxy
       @client = EmbeddingClient.new(api_key: "FILLER")
     end
 
-    it "create completion" do
+    it "create embedding" do
       stub_request(:post, "https://api.openai.com/v1/embeddings")
         .to_return(
           status: 200,

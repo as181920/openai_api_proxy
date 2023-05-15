@@ -3,6 +3,10 @@
 require "test_helper"
 
 describe OpenaiApiProxy do
+  after do
+    ENV["openai_api_base_url"] = nil
+  end
+
   it "has a version number" do
     refute_nil OpenaiApiProxy::VERSION
   end

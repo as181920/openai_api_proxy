@@ -12,3 +12,9 @@ require "minitest/reporters"
 Minitest::Reporters.use!
 
 OpenaiApiProxy.configuration.logger = Logger.new(nil)
+
+class ActiveSupport::TestCase # rubocop:disable Style/ClassAndModuleChildren
+  setup do
+    OpenaiApiProxy.configuration.api_base_url = OpenaiApiProxy::Configuration::DEFAULT_API_BASE_URL
+  end
+end
